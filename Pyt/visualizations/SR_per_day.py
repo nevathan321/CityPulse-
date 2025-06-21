@@ -23,7 +23,7 @@ with open(r"Pyt\visualizations\daysData.txt","r") as f:
 x = list(week_days.keys())
 y = list(week_days.values())
 
-plt.plot(x, y, marker='o')  # Add marker for each point
+plt.plot(x, y, marker='o')  
 plt.title("Daily Data")
 plt.xlabel("Day")
 plt.ylabel("Value")

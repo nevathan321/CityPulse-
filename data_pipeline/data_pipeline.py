@@ -1,11 +1,3 @@
-"""
-Toronto 311 Data Pipeline - Dynamic Charts & ML Model
-====================================================
-Processes CSV data to generate:
-1. Dynamic chart data for frontend
-2. Trained ML model for completion predictions
-"""
-
 import pandas as pd
 import numpy as np
 import json
