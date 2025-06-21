@@ -4,48 +4,48 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.preprocessing import LabelEncoder
 
-# Load CSV
+
 df = pd.read_csv("Pyt\\data\\SR2025.csv", encoding="latin1", on_bad_lines="skip")
 df.columns = df.columns.str.strip()  # Clean column names
 
-# Drop rows missing essential values
+
 df = df.dropna(subset=['Status', 'Service Request Type', 'Division', 'Ward'])
 
-# Encode target column
+
 le_status = LabelEncoder()
 df['Status_encoded'] = le_status.fit_transform(df['Status'])
 
-# Confirm columns exist before one-hot encoding
+
 cols_to_encode = ['Service Request Type', 'Division', 'Ward']
 for col in cols_to_encode:
     if col not in df.columns:
         raise ValueError(f"Column '{col}' not found in DataFrame!")
 
-# One-hot encode selected categorical columns
+
 df_encoded = pd.get_dummies(df[cols_to_encode], drop_first=True)
 
-# Combine with any numeric features you want (e.g., temporal ones)
+
 df['Month'] = pd.to_datetime(df['Creation Date'], errors='coerce').dt.month
 df['Weekday'] = pd.to_datetime(df['Creation Date'], errors='coerce').dt.dayofweek
 df['Hour'] = pd.to_datetime(df['Creation Date'], errors='coerce').dt.hour
 numeric_features = df[['Month', 'Weekday', 'Hour']]
 
-# Final feature matrix
+
 X = pd.concat([df_encoded, numeric_features], axis=1)
 y = df['Status_encoded']
 
-# Final check
+
 assert X.select_dtypes(include='object').empty, "Non-numeric columns still in X!"
 
-# Train/test split
+
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.3, random_state=101
 )
 
-# Train model
+
 clf = RandomForestClassifier(n_estimators=100, random_state=42)
 clf.fit(X_train, y_train)
 
-# Evaluate
+
 y_pred = clf.predict(X_test)
 print(classification_report(y_test, y_pred, target_names=le_status.classes_))

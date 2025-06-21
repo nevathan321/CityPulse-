@@ -17,7 +17,7 @@ for x in df["Creation Date"]:
 x = list(hours.keys())
 y = list(hours.values())
 
-plt.plot(x, y, marker='o')  # Add marker for each point
+plt.plot(x, y, marker='o')  
 plt.title("Hourly Data")
 plt.xlabel("Hours")
 plt.ylabel("Requests")

@@ -1,10 +1,3 @@
-"""
-Toronto 311 Dashboard API - Dynamic Charts & ML Predictions
-==========================================================
-Flask API serving dynamic chart data and ML predictions
-(KPI cards remain hardcoded in frontend)
-"""
-
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import json
