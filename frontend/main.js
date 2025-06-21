@@ -1,5 +1,5 @@
 const HARDCODED_KPI = {
-  totalRequests: "202600 (2025)",
+  totalRequests: "202,600",
   completionRate: "77.5",
   topWard: "Toronto Danforth",
   topServiceType: "Sidewalk Snow Clearing",
