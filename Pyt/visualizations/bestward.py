@@ -9,8 +9,6 @@ for index, row in df.iterrows():
     status = row["Status"]
 
     if ward not in wards:
-        if ward == "Fireworks":
-            continue
         wards[ward] = {"Cases": 0, "Completed": 0}
 
     wards[ward]["Cases"] += 1
