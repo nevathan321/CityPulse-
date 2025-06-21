@@ -1,38 +1,25 @@
-/**
- * Toronto 311 Dashboard - JavaScript with Fixed Chart Sizing
- * =========================================================
- *
- * Key Features:
- * - Hardcoded KPI values (as requested)
- * - Dynamic charts from Flask backend API
- * - ML prediction functionality
- * - FIXED: Proper chart sizing to fit containers
- */
-
-// ===== HARDCODED KPI VALUES =====
 const HARDCODED_KPI = {
-  totalRequests: "15,420",
-  completionRate: "78.5%",
-  topWard: "Spadina-Fort York",
-  topServiceType: "Noise Complaints",
-  mlAccuracy: "84.2%",
-  mlPrecision: "81.7%",
-  mlRecall: "79.3%",
-  mlF1Score: "0.805",
-  bestServiceType: "Animal Services (92%)",
-  bestWard: "University-Rosedale (89%)",
-  bestDivision: "Solid Waste Management (91%)",
-  bestTime: "Morning 9-11 AM (85%)",
+  totalRequests: "202600",
+  completionRate: "77.5",
+  topWard: "Toronto Danforth",
+  topServiceType: "Sidewalk Snow Clearing",
+  mlAccuracy: "84%",
+  mlPrecision: "82%",
+  mlRecall: "84%",
+  mlF1Score: "84%",
+  bestServiceType: "",
+  bestWard: "Etobicoke Centre(02) (85.3%)",
+  bestDivision: "Transportation Services(01) (86.2%)",
 }
 
-// ===== API CONFIGURATION =====
+
 const API_BASE_URL = "http://localhost:5000/api"
 const ENDPOINTS = {
   dashboardData: `${API_BASE_URL}/dashboard-data`,
   predictCompletion: `${API_BASE_URL}/predict-completion`,
 }
 
-// ===== CHART STYLING - UPDATED FOR PROPER CONTAINER FIT =====
+
 const CHART_COLORS = {
   primary: "#6366f1",
   secondary: "#8b5cf6",
@@ -40,56 +27,56 @@ const CHART_COLORS = {
   warning: "#f59e0b",
   error: "#ef4444",
   text: "#ffffff",
-  background: "#0f0f23", // Dark background to match containers
+  background: "#0f0f23", 
 }
 
-// ===== GLOBAL VARIABLES =====
+
 let dashboardData = null
 let isBackendConnected = false
 
-// ===== INITIALIZATION =====
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("🚀 Initializing Toronto 311 Dashboard...")
 
-  // 1. Set hardcoded KPI values immediately
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("Initializing Toronto 311 Dashboard...")
+
+  
   setHardcodedKPIValues()
 
-  // 2. Set up ML prediction functionality
+  
   setupMLPrediction()
 
-  // 3. Try to load real data from backend
+  
   loadDashboardData()
 
-  console.log("✅ Dashboard initialization complete")
+  console.log("Dashboard initialization complete")
 })
 
-// ===== SET HARDCODED KPI VALUES =====
-function setHardcodedKPIValues() {
-  console.log("📊 Setting hardcoded KPI values...")
 
-  // KPI Cards
+function setHardcodedKPIValues() {
+  console.log("Setting hardcoded KPI values...")
+
+  
   setElementText("totalRequests", ".kpi-value", HARDCODED_KPI.totalRequests)
   setElementText("completionRate", ".kpi-value", HARDCODED_KPI.completionRate)
   setElementText("topWard", ".kpi-value", HARDCODED_KPI.topWard)
   setElementText("topServiceType", ".kpi-value", HARDCODED_KPI.topServiceType)
 
-  // ML Performance Metrics
+ 
   setElementText("mlAccuracy", null, HARDCODED_KPI.mlAccuracy)
   setElementText("mlPrecision", null, HARDCODED_KPI.mlPrecision)
   setElementText("mlRecall", null, HARDCODED_KPI.mlRecall)
   setElementText("mlF1Score", null, HARDCODED_KPI.mlF1Score)
 
-  // Success Factors
+  
   setElementText("bestServiceType", null, HARDCODED_KPI.bestServiceType)
   setElementText("bestWard", null, HARDCODED_KPI.bestWard)
   setElementText("bestDivision", null, HARDCODED_KPI.bestDivision)
   setElementText("bestTime", null, HARDCODED_KPI.bestTime)
 
-  // Header Status
+ 
   setElementText("dataStatus", null, "Dashboard Loaded")
   setElementText("lastUpdated", null, `Last updated: ${new Date().toLocaleString()}`)
 
-  console.log("✅ All KPI values set")
+  console.log("All KPI values set")
 }
 
 function setElementText(elementId, selector, value) {
@@ -104,10 +91,10 @@ function setElementText(elementId, selector, value) {
   }
 }
 
-// ===== LOAD DASHBOARD DATA =====
+
 async function loadDashboardData() {
   try {
-    console.log("📊 Attempting to load data from Flask backend...")
+    console.log("Attempting to load data from Flask backend...")
     showLoadingOverlay()
 
     const response = await fetch(ENDPOINTS.dashboardData)
@@ -122,23 +109,23 @@ async function loadDashboardData() {
       dashboardData = result.data
       isBackendConnected = true
 
-      console.log("✅ Real data loaded from backend:", dashboardData)
+      console.log(" Real data loaded from backend:", dashboardData)
 
-      // Render all charts with real data
+      
       renderAllCharts()
 
-      // Populate ML prediction dropdowns
+      
       populateMLDropdowns()
 
-      // Update status
+     
       updateDataStatus("Connected to Backend", result.last_updated)
     } else {
       throw new Error(result.message || "Failed to load data")
     }
   } catch (error) {
-    console.error("❌ Backend not available:", error)
+    console.error("Backend not available:", error)
 
-    // Show placeholder messages in chart containers
+   
     showChartPlaceholders()
     updateDataStatus("Backend Not Available", null)
   } finally {
@@ -146,16 +133,16 @@ async function loadDashboardData() {
   }
 }
 
-// ===== RENDER ALL CHARTS =====
+
 function renderAllCharts() {
-  console.log("📈 Rendering all charts with real data...")
+  console.log("Rendering all charts with real data...")
 
   if (!dashboardData) {
-    console.log("⚠️ No data available for charts")
+    console.log("No data available for charts")
     return
   }
 
-  // Render each chart in its container
+
   const chartFunctions = [
     { id: "timeSeriesChart", func: renderTimeSeriesChart },
     { id: "wardChart", func: renderWardChart },
@@ -169,17 +156,17 @@ function renderAllCharts() {
   chartFunctions.forEach(({ id, func }) => {
     const container = document.getElementById(id)
     if (container) {
-      console.log(`✅ Rendering chart: ${id}`)
+      console.log(`Rendering chart: ${id}`)
       func()
     } else {
-      console.error(`❌ Chart container not found: ${id}`)
+      console.error(`Chart container not found: ${id}`)
     }
   })
 
-  console.log("✅ All charts rendered")
+  console.log("All charts rendered")
 }
 
-// ===== INDIVIDUAL CHART RENDERING FUNCTIONS - UPDATED WITH PROPER SIZING =====
+
 
 function renderTimeSeriesChart() {
   const chartDiv = document.getElementById("timeSeriesChart")
@@ -197,7 +184,7 @@ function renderTimeSeriesChart() {
     },
   ]
 
-  // UPDATED: Fixed layout for proper container fit
+  
   const layout = {
     paper_bgcolor: CHART_COLORS.background,
     plot_bgcolor: CHART_COLORS.background,
@@ -215,11 +202,11 @@ function renderTimeSeriesChart() {
       titlefont: { size: 14 },
     },
     margin: { t: 20, r: 20, b: 60, l: 60 },
-    autosize: true, // ADDED: Enable responsive sizing
-    height: 280, // ADDED: Fixed height to fit container
+    autosize: true, 
+    height: 280, 
   }
 
-  // UPDATED: Added displayModeBar: false to hide toolbar
+ 
   Plotly.newPlot(chartDiv, data, layout, {
     responsive: true,
     displayModeBar: false,
@@ -241,7 +228,7 @@ function renderWardChart() {
     },
   ]
 
-  // UPDATED: Fixed layout for proper container fit
+  
   const layout = {
     paper_bgcolor: CHART_COLORS.background,
     plot_bgcolor: CHART_COLORS.background,
@@ -255,9 +242,9 @@ function renderWardChart() {
     yaxis: {
       title: "",
       color: CHART_COLORS.text,
-      tickfont: { size: 10 }, // ADDED: Smaller font for ward names
+      tickfont: { size: 10 }, 
     },
-    margin: { t: 20, r: 20, b: 60, l: 180 }, // UPDATED: More left margin for ward names
+    margin: { t: 20, r: 20, b: 60, l: 180 }, 
     autosize: true,
     height: 280,
   }
@@ -290,7 +277,7 @@ function renderStatusChart() {
     },
   ]
 
-  // UPDATED: Fixed layout for proper container fit
+  
   const layout = {
     paper_bgcolor: CHART_COLORS.background,
     plot_bgcolor: CHART_COLORS.background,
@@ -300,7 +287,7 @@ function renderStatusChart() {
     height: 280,
     showlegend: true,
     legend: {
-      orientation: "v", // ADDED: Vertical legend
+      orientation: "v", 
       x: 1.02,
       y: 0.5,
       font: { size: 11 },
@@ -328,7 +315,7 @@ function renderServiceTypesChart() {
     },
   ]
 
-  // UPDATED: Fixed layout for proper container fit
+  
   const layout = {
     paper_bgcolor: CHART_COLORS.background,
     plot_bgcolor: CHART_COLORS.background,
@@ -342,9 +329,9 @@ function renderServiceTypesChart() {
     yaxis: {
       title: "",
       color: CHART_COLORS.text,
-      tickfont: { size: 10 }, // ADDED: Smaller font for service type names
+      tickfont: { size: 10 }, 
     },
-    margin: { t: 20, r: 20, b: 60, l: 200 }, // UPDATED: More left margin for service type names
+    margin: { t: 20, r: 20, b: 60, l: 200 }, 
     autosize: true,
     height: 280,
   }
@@ -369,7 +356,7 @@ function renderDivisionChart() {
     },
   ]
 
-  // UPDATED: Fixed layout for proper container fit
+  
   const layout = {
     paper_bgcolor: CHART_COLORS.background,
     plot_bgcolor: CHART_COLORS.background,
@@ -377,7 +364,7 @@ function renderDivisionChart() {
     xaxis: {
       title: "",
       color: CHART_COLORS.text,
-      tickangle: -45, // ADDED: Rotate labels for better fit
+      tickangle: -45, 
       tickfont: { size: 10 },
     },
     yaxis: {
@@ -386,7 +373,7 @@ function renderDivisionChart() {
       gridcolor: "#374151",
       titlefont: { size: 14 },
     },
-    margin: { t: 20, r: 20, b: 120, l: 60 }, // UPDATED: More bottom margin for rotated labels
+    margin: { t: 20, r: 20, b: 120, l: 60 }, 
     autosize: true,
     height: 280,
   }
@@ -413,7 +400,7 @@ function renderHourlyPatternChart() {
     },
   ]
 
-  // UPDATED: Fixed layout for proper container fit
+  
   const layout = {
     paper_bgcolor: CHART_COLORS.background,
     plot_bgcolor: CHART_COLORS.background,
@@ -456,7 +443,7 @@ function renderFeatureImportanceChart() {
     },
   ]
 
-  // UPDATED: Fixed layout for proper container fit
+  
   const layout = {
     paper_bgcolor: CHART_COLORS.background,
     plot_bgcolor: CHART_COLORS.background,
@@ -472,7 +459,7 @@ function renderFeatureImportanceChart() {
       color: CHART_COLORS.text,
       tickfont: { size: 10 },
     },
-    margin: { t: 20, r: 20, b: 60, l: 180 }, // UPDATED: More left margin for feature names
+    margin: { t: 20, r: 20, b: 60, l: 180 }, 
     autosize: true,
     height: 280,
   }
@@ -483,9 +470,9 @@ function renderFeatureImportanceChart() {
   })
 }
 
-// ===== SHOW CHART PLACEHOLDERS =====
+
 function showChartPlaceholders() {
-  console.log("⚠️ Showing chart placeholders (backend not available)")
+  console.log("Showing chart placeholders (backend not available)")
 
   const chartIds = [
     "timeSeriesChart",
@@ -527,9 +514,9 @@ function showChartPlaceholders() {
   })
 }
 
-// ===== ML PREDICTION FUNCTIONALITY =====
+
 function setupMLPrediction() {
-  console.log("🤖 Setting up ML prediction functionality...")
+  console.log(" Setting up ML prediction functionality...")
 
   const predictButton = document.getElementById("predictButton")
   if (predictButton) {
@@ -541,14 +528,14 @@ function setupMLPrediction() {
     closeErrorBtn.addEventListener("click", hideErrorModal)
   }
 
-  console.log("✅ ML prediction setup complete")
+  console.log(" ML prediction setup complete")
 }
 
 async function handleMLPrediction() {
-  console.log("🔮 Processing ML prediction...")
+  console.log(" Processing ML prediction...")
 
   try {
-    // Get form data
+    
     const formData = {
       service_type: document.getElementById("serviceType")?.value || "",
       ward: document.getElementById("ward")?.value || "",
@@ -558,18 +545,18 @@ async function handleMLPrediction() {
       day_of_week: document.getElementById("predDayOfWeek")?.value || "",
     }
 
-    // Validate required fields
+    
     if (!formData.service_type || !formData.ward || !formData.division) {
       showErrorModal("Please fill in Service Type, Ward, and Division")
       return
     }
 
-    // Update button state
+    
     const predictBtn = document.getElementById("predictButton")
-    predictBtn.textContent = "🔄 Predicting..."
+    predictBtn.textContent = " Predicting..."
     predictBtn.disabled = true
 
-    // Make API call
+    
     const response = await fetch(ENDPOINTS.predictCompletion, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -584,48 +571,46 @@ async function handleMLPrediction() {
 
     if (result.status === "success") {
       displayPredictionResults(result.prediction)
-      console.log("✅ ML prediction successful")
+      console.log(" ML prediction successful")
     } else {
       throw new Error(result.message || "Prediction failed")
     }
   } catch (error) {
-    console.error("❌ ML prediction error:", error)
+    console.error(" ML prediction error:", error)
     showErrorModal(`Prediction failed: ${error.message}`)
   } finally {
-    // Reset button state
     const predictBtn = document.getElementById("predictButton")
-    predictBtn.textContent = "🔮 Predict Completion"
+    predictBtn.textContent = " Predict Completion"
     predictBtn.disabled = false
   }
 }
 
 function displayPredictionResults(prediction) {
-  // Hide placeholder, show results
+  
   const placeholder = document.getElementById("predictionPlaceholder")
   const results = document.getElementById("predictionResults")
 
   if (placeholder) placeholder.classList.add("hidden")
   if (results) results.classList.remove("hidden")
 
-  // Update probability percentage
   const probabilityPercent = document.getElementById("probabilityPercent")
   if (probabilityPercent) {
     probabilityPercent.textContent = `${prediction.completion_probability}%`
   }
 
-  // Update prediction outcome
+  
   const outcomeValue = document.getElementById("outcomeValue")
   if (outcomeValue) {
     outcomeValue.textContent = prediction.prediction
   }
 
-  // Update confidence level
+ 
   const confidenceValue = document.getElementById("confidenceValue")
   if (confidenceValue) {
     confidenceValue.textContent = `${prediction.confidence}%`
   }
 
-  // Update influencing factors
+
   const factorsList = document.getElementById("influencingFactors")
   if (factorsList && prediction.factors) {
     factorsList.innerHTML = ""
@@ -638,26 +623,26 @@ function displayPredictionResults(prediction) {
 }
 
 function populateMLDropdowns() {
-  console.log("🔽 Populating ML prediction dropdowns...")
+  console.log("Populating ML prediction dropdowns...")
 
   if (!dashboardData) return
 
-  // Populate service types
+  
   if (dashboardData.service_types) {
     populateDatalist("serviceTypeList", dashboardData.service_types.types)
   }
 
-  // Populate wards
+  
   if (dashboardData.ward_distribution) {
     populateDatalist("wardList", dashboardData.ward_distribution.wards)
   }
 
-  // Populate divisions
+  
   if (dashboardData.division_distribution) {
     populateDatalist("divisionList", dashboardData.division_distribution.divisions)
   }
 
-  console.log("✅ ML dropdowns populated")
+  console.log("ML dropdowns populated")
 }
 
 function populateDatalist(datalistId, options) {
@@ -672,7 +657,7 @@ function populateDatalist(datalistId, options) {
   }
 }
 
-// ===== UTILITY FUNCTIONS =====
+
 function showLoadingOverlay() {
   const overlay = document.getElementById("loadingOverlay")
   if (overlay) overlay.classList.add("active")
@@ -710,5 +695,5 @@ function updateDataStatus(status, lastUpdated) {
   }
 }
 
-console.log("📄 Toronto 311 Dashboard JavaScript loaded")
-console.log("🎯 Mode: Fixed chart sizing for proper container fit")
+console.log("Toronto 311 Dashboard JavaScript loaded")
+console.log("Mode: Fixed chart sizing for proper container fit")
