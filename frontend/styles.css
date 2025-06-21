@@ -1,4 +1,4 @@
-
+/* ===== CSS VARIABLES ===== */
 :root {
   --bg-dark: #0f0f23;
   --bg-card: #1a1a2e;
@@ -13,7 +13,7 @@
   --error: #ef4444;
 }
 
-
+/* ===== GLOBAL RESET ===== */
 * {
   margin: 0;
   padding: 0;
@@ -21,20 +21,20 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background: var(--bg-dark);
   color: var(--text-white);
   line-height: 1.6;
 }
 
-
+/* ===== MAIN CONTAINER ===== */
 .dashboard-container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 24px;
 }
 
-
+/* ===== HEADER SECTION ===== */
 .dashboard-header {
   background: linear-gradient(135deg, var(--purple) 0%, var(--purple-light) 100%);
   border-radius: 16px;
@@ -60,18 +60,17 @@ body {
   align-items: center;
   justify-content: center;
   gap: 24px;
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   padding: 16px;
 }
 
-
+/* ===== MAIN DASHBOARD LAYOUT ===== */
 .dashboard-main {
   display: flex;
   flex-direction: column;
   gap: 32px;
 }
-
 
 .section-title {
   font-size: 24px;
@@ -84,7 +83,7 @@ body {
   margin-bottom: 24px;
 }
 
-
+/* ===== SECTION CONTAINERS ===== */
 .kpi-section,
 .controls-section,
 .charts-section,
@@ -96,11 +95,12 @@ body {
   border: 1px solid var(--border);
 }
 
-
+/* ===== KPI CARDS SECTION ===== */
 .kpi-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 24px;
+  align-items: stretch; /* Ensures all cards have same height */
 }
 
 .kpi-card {
@@ -110,6 +110,11 @@ body {
   border: 1px solid var(--border);
   border-left: 4px solid var(--purple);
   transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  min-height: 120px; /* Consistent card height */
 }
 
 .kpi-card:hover {
@@ -120,27 +125,77 @@ body {
   font-size: 30px;
   font-weight: 700;
   margin-bottom: 8px;
+  color: var(--purple);
 }
 
 .kpi-label {
   color: var(--text-gray);
   font-weight: 500;
-  margin-bottom: 4px;
-}
-
-.kpi-change {
   font-size: 14px;
-  color: var(--text-muted);
 }
 
-
-.controls-grid {
+/* ===== CHARTS SECTION ===== */
+.charts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 24px;
-  align-items: end;
+  grid-template-columns: 1fr 1fr; /* Two equal columns */
+  gap: 32px;
+  align-items: start; /* Align to top */
 }
 
+.chart-column {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.chart-container {
+  background: var(--bg-hover);
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  height: fit-content; /* Let content determine height */
+}
+
+.chart-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-white);
+}
+
+.chart-description {
+  font-size: 14px;
+  color: var(--text-gray);
+  margin-bottom: 24px;
+}
+
+/* ===== CHART PLOT CONTAINERS - FIXED FOR PROPER SIZING ===== */
+.chart-plot {
+  min-height: 300px;
+  max-height: 300px; /* ADDED: Fixed maximum height */
+  background: var(--bg-dark);
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  display: block; /* CHANGED: From flex to block for better Plotly integration */
+  width: 100%;
+  overflow: hidden; /* ADDED: Prevent overflow */
+  position: relative; /* ADDED: For proper positioning */
+}
+
+/* ===== PLOTLY SPECIFIC STYLING - NEW ADDITION ===== */
+.chart-plot .plotly-graph-div {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Hide Plotly mode bar for cleaner look */
+.chart-plot .modebar {
+  display: none !important;
+}
+
+/* ===== FORM CONTROLS ===== */
 .control-group {
   display: flex;
   flex-direction: column;
@@ -155,131 +210,23 @@ body {
 
 .control-select,
 .control-input {
-  background: var(--bg-hover);
+  background: var(--bg-dark);
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 12px;
   color: var(--text-white);
   font-size: 16px;
+  width: 100%;
 }
 
 .control-select:focus,
 .control-input:focus {
   outline: none;
   border-color: var(--purple);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
 }
 
-.refresh-btn {
-  background: var(--purple);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 24px;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.refresh-btn:hover {
-  background: var(--purple-light);
-}
-
-
-.charts-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
-}
-
-.chart-column {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
-
-.chart-container {
-  background: var(--bg-hover);
-  border-radius: 12px;
-  padding: 24px;
-  border: 1px solid var(--border);
-}
-
-.chart-title {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.chart-description {
-  font-size: 14px;
-  color: var(--text-gray);
-  margin-bottom: 24px;
-}
-
-.chart-plot {
-  min-height: 300px;
-  background: var(--bg-dark);
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-muted);
-}
-
-
-.tables-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
-}
-
-.table-container {
-  background: var(--bg-hover);
-  border-radius: 12px;
-  padding: 24px;
-  border: 1px solid var(--border);
-}
-
-.table-title {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 24px;
-}
-
-.table-wrapper {
-  overflow-x: auto;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-}
-
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: var(--bg-dark);
-}
-
-.data-table th {
-  background: var(--bg-hover);
-  color: var(--text-gray);
-  font-weight: 600;
-  font-size: 14px;
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid var(--border);
-}
-
-.data-table td {
-  padding: 12px;
-  border-bottom: 1px solid var(--border);
-  font-size: 14px;
-}
-
-.data-table tr:hover {
-  background: var(--bg-hover);
-}
-
+/* ===== ML PREDICTION SECTION ===== */
 .ml-container {
   display: flex;
   flex-direction: column;
@@ -292,19 +239,30 @@ body {
   margin-bottom: 24px;
 }
 
+/* ML Performance Overview */
+.ml-overview {
+  background: var(--bg-hover);
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid var(--border);
+}
+
 .ml-stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 24px;
-  margin-bottom: 32px;
 }
 
 .ml-stat-card {
-  background: var(--bg-hover);
+  background: var(--bg-dark);
   border-radius: 12px;
   padding: 24px;
   text-align: center;
   border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100px;
 }
 
 .ml-stat-value {
@@ -319,11 +277,12 @@ body {
   color: var(--text-gray);
 }
 
-
+/* Prediction Tool Layout */
 .prediction-tool {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 32px;
+  align-items: start;
 }
 
 .prediction-input-section,
@@ -332,6 +291,7 @@ body {
   border-radius: 12px;
   padding: 24px;
   border: 1px solid var(--border);
+  height: fit-content;
 }
 
 .prediction-instructions {
@@ -349,32 +309,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.form-group label {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text-gray);
-}
-
-.pred-input {
-  background: var(--bg-dark);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 12px;
-  color: var(--text-white);
-  font-size: 16px;
-}
-
-.pred-input:focus {
-  outline: none;
-  border-color: var(--purple);
+  align-items: end; /* Align form elements to bottom */
 }
 
 .prediction-button-container {
@@ -394,8 +329,18 @@ body {
   transition: background 0.2s;
 }
 
-.predict-btn:hover {
+.predict-btn:hover:not(:disabled) {
   background: var(--purple-light);
+}
+
+.predict-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ===== PREDICTION RESULTS ===== */
+.probability-display {
+  margin-bottom: 24px;
 }
 
 .gauge-container {
@@ -411,7 +356,7 @@ body {
 }
 
 .gauge-container::before {
-  content: '';
+  content: "";
   position: absolute;
   width: 160px;
   height: 160px;
@@ -485,16 +430,24 @@ body {
   color: var(--text-muted);
 }
 
+/* ===== ML INSIGHTS ===== */
+.ml-insights {
+  background: var(--bg-hover);
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid var(--border);
+}
 
 .insights-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 32px;
+  align-items: start;
 }
 
 .insight-chart,
 .completion-factors {
-  background: var(--bg-hover);
+  background: var(--bg-dark);
   border-radius: 12px;
   padding: 24px;
   border: 1px solid var(--border);
@@ -511,7 +464,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 12px;
-  background: var(--bg-dark);
+  background: var(--bg-hover);
   border-radius: 8px;
   border: 1px solid var(--border);
 }
@@ -526,7 +479,7 @@ body {
   font-size: 14px;
 }
 
-
+/* ===== FOOTER ===== */
 .dashboard-footer {
   background: var(--bg-card);
   border-radius: 16px;
@@ -553,7 +506,7 @@ body {
   margin-bottom: 8px;
 }
 
-
+/* ===== LOADING & ERROR MODALS ===== */
 .loading-overlay {
   position: fixed;
   top: 0;
@@ -583,15 +536,18 @@ body {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .loading-text {
   font-size: 18px;
   font-weight: 500;
 }
-
 
 .error-modal {
   position: fixed;
@@ -641,18 +597,20 @@ body {
   cursor: pointer;
 }
 
-
 .hidden {
   display: none !important;
 }
 
-
+/* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 1200px) {
   .charts-grid,
-  .tables-grid,
   .prediction-tool,
   .insights-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* Stack columns on smaller screens */
+  }
+
+  .chart-column {
+    gap: 24px;
   }
 }
 
@@ -660,26 +618,79 @@ body {
   .dashboard-container {
     padding: 16px;
   }
-  
+
   .dashboard-header {
-    padding: 32px;
+    padding: 32px 24px;
   }
-  
+
   .dashboard-title {
     font-size: 28px;
   }
-  
-  .kpi-grid,
-  .controls-grid {
+
+  .kpi-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
-  
+
+  .kpi-card {
+    padding: 24px;
+    min-height: 100px;
+  }
+
   .form-row {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
-  
+
   .data-status {
     flex-direction: column;
     gap: 16px;
+  }
+
+  .charts-section,
+  .ml-prediction-section {
+    padding: 24px;
+  }
+
+  .chart-plot {
+    min-height: 250px; /* Smaller height on mobile */
+    max-height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: 12px;
+  }
+
+  .kpi-value {
+    font-size: 24px;
+  }
+
+  .chart-title {
+    font-size: 16px;
+  }
+
+  .ml-stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .gauge-container {
+    width: 150px;
+    height: 150px;
+  }
+
+  .gauge-container::before {
+    width: 120px;
+    height: 120px;
+  }
+
+  .probability-percent {
+    font-size: 24px;
+  }
+
+  .chart-plot {
+    min-height: 205px; /* Even smaller on very small screens */
+    max-height: 205px;
   }
 }

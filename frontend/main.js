@@ -1,8 +1,12 @@
 /**
- * Toronto 311 Dashboard - Simplified JavaScript
- * ============================================
+ * Toronto 311 Dashboard - JavaScript with Fixed Chart Sizing
+ * =========================================================
  *
- * Simplified version without filtering - just displays charts directly
+ * Key Features:
+ * - Hardcoded KPI values (as requested)
+ * - Dynamic charts from Flask backend API
+ * - ML prediction functionality
+ * - FIXED: Proper chart sizing to fit containers
  */
 
 // ===== HARDCODED KPI VALUES =====
@@ -28,7 +32,7 @@ const ENDPOINTS = {
   predictCompletion: `${API_BASE_URL}/predict-completion`,
 }
 
-// Chart styling configuration
+// ===== CHART STYLING - UPDATED FOR PROPER CONTAINER FIT =====
 const CHART_COLORS = {
   primary: "#6366f1",
   secondary: "#8b5cf6",
@@ -36,10 +40,10 @@ const CHART_COLORS = {
   warning: "#f59e0b",
   error: "#ef4444",
   text: "#ffffff",
-  background: "#0f0f23",
+  background: "#0f0f23", // Dark background to match containers
 }
 
-// Global variables
+// ===== GLOBAL VARIABLES =====
 let dashboardData = null
 let isBackendConnected = false
 
@@ -175,7 +179,8 @@ function renderAllCharts() {
   console.log("✅ All charts rendered")
 }
 
-// ===== INDIVIDUAL CHART RENDERING FUNCTIONS =====
+// ===== INDIVIDUAL CHART RENDERING FUNCTIONS - UPDATED WITH PROPER SIZING =====
+
 function renderTimeSeriesChart() {
   const chartDiv = document.getElementById("timeSeriesChart")
   if (!chartDiv || !dashboardData.time_series) return
@@ -192,24 +197,33 @@ function renderTimeSeriesChart() {
     },
   ]
 
+  // UPDATED: Fixed layout for proper container fit
   const layout = {
     paper_bgcolor: CHART_COLORS.background,
     plot_bgcolor: CHART_COLORS.background,
-    font: { color: CHART_COLORS.text },
+    font: { color: CHART_COLORS.text, size: 12 },
     xaxis: {
       title: "Date",
       color: CHART_COLORS.text,
       gridcolor: "#374151",
+      titlefont: { size: 14 },
     },
     yaxis: {
       title: "Number of Requests",
       color: CHART_COLORS.text,
       gridcolor: "#374151",
+      titlefont: { size: 14 },
     },
     margin: { t: 20, r: 20, b: 60, l: 60 },
+    autosize: true, // ADDED: Enable responsive sizing
+    height: 280, // ADDED: Fixed height to fit container
   }
 
-  Plotly.newPlot(chartDiv, data, layout, { responsive: true })
+  // UPDATED: Added displayModeBar: false to hide toolbar
+  Plotly.newPlot(chartDiv, data, layout, {
+    responsive: true,
+    displayModeBar: false,
+  })
 }
 
 function renderWardChart() {
@@ -227,23 +241,31 @@ function renderWardChart() {
     },
   ]
 
+  // UPDATED: Fixed layout for proper container fit
   const layout = {
     paper_bgcolor: CHART_COLORS.background,
     plot_bgcolor: CHART_COLORS.background,
-    font: { color: CHART_COLORS.text },
+    font: { color: CHART_COLORS.text, size: 11 },
     xaxis: {
       title: "Number of Requests",
       color: CHART_COLORS.text,
       gridcolor: "#374151",
+      titlefont: { size: 14 },
     },
     yaxis: {
-      title: "Ward",
+      title: "",
       color: CHART_COLORS.text,
+      tickfont: { size: 10 }, // ADDED: Smaller font for ward names
     },
-    margin: { t: 20, r: 20, b: 60, l: 200 },
+    margin: { t: 20, r: 20, b: 60, l: 180 }, // UPDATED: More left margin for ward names
+    autosize: true,
+    height: 280,
   }
 
-  Plotly.newPlot(chartDiv, data, layout, { responsive: true })
+  Plotly.newPlot(chartDiv, data, layout, {
+    responsive: true,
+    displayModeBar: false,
+  })
 }
 
 function renderStatusChart() {
@@ -256,20 +278,39 @@ function renderStatusChart() {
       values: dashboardData.status_distribution.counts,
       type: "pie",
       marker: {
-        colors: [CHART_COLORS.success, CHART_COLORS.error, CHART_COLORS.warning],
+        colors: [
+          CHART_COLORS.success,
+          CHART_COLORS.error,
+          CHART_COLORS.warning,
+          CHART_COLORS.primary,
+          CHART_COLORS.secondary,
+        ],
       },
       textfont: { color: CHART_COLORS.text },
     },
   ]
 
+  // UPDATED: Fixed layout for proper container fit
   const layout = {
     paper_bgcolor: CHART_COLORS.background,
     plot_bgcolor: CHART_COLORS.background,
-    font: { color: CHART_COLORS.text },
+    font: { color: CHART_COLORS.text, size: 12 },
     margin: { t: 20, r: 20, b: 20, l: 20 },
+    autosize: true,
+    height: 280,
+    showlegend: true,
+    legend: {
+      orientation: "v", // ADDED: Vertical legend
+      x: 1.02,
+      y: 0.5,
+      font: { size: 11 },
+    },
   }
 
-  Plotly.newPlot(chartDiv, data, layout, { responsive: true })
+  Plotly.newPlot(chartDiv, data, layout, {
+    responsive: true,
+    displayModeBar: false,
+  })
 }
 
 function renderServiceTypesChart() {
@@ -287,23 +328,31 @@ function renderServiceTypesChart() {
     },
   ]
 
+  // UPDATED: Fixed layout for proper container fit
   const layout = {
     paper_bgcolor: CHART_COLORS.background,
     plot_bgcolor: CHART_COLORS.background,
-    font: { color: CHART_COLORS.text },
+    font: { color: CHART_COLORS.text, size: 11 },
     xaxis: {
       title: "Number of Requests",
       color: CHART_COLORS.text,
       gridcolor: "#374151",
+      titlefont: { size: 14 },
     },
     yaxis: {
-      title: "Service Type",
+      title: "",
       color: CHART_COLORS.text,
+      tickfont: { size: 10 }, // ADDED: Smaller font for service type names
     },
-    margin: { t: 20, r: 20, b: 60, l: 180 },
+    margin: { t: 20, r: 20, b: 60, l: 200 }, // UPDATED: More left margin for service type names
+    autosize: true,
+    height: 280,
   }
 
-  Plotly.newPlot(chartDiv, data, layout, { responsive: true })
+  Plotly.newPlot(chartDiv, data, layout, {
+    responsive: true,
+    displayModeBar: false,
+  })
 }
 
 function renderDivisionChart() {
@@ -320,23 +369,32 @@ function renderDivisionChart() {
     },
   ]
 
+  // UPDATED: Fixed layout for proper container fit
   const layout = {
     paper_bgcolor: CHART_COLORS.background,
     plot_bgcolor: CHART_COLORS.background,
-    font: { color: CHART_COLORS.text },
+    font: { color: CHART_COLORS.text, size: 11 },
     xaxis: {
-      title: "Division",
+      title: "",
       color: CHART_COLORS.text,
+      tickangle: -45, // ADDED: Rotate labels for better fit
+      tickfont: { size: 10 },
     },
     yaxis: {
       title: "Number of Requests",
       color: CHART_COLORS.text,
       gridcolor: "#374151",
+      titlefont: { size: 14 },
     },
-    margin: { t: 20, r: 20, b: 100, l: 60 },
+    margin: { t: 20, r: 20, b: 120, l: 60 }, // UPDATED: More bottom margin for rotated labels
+    autosize: true,
+    height: 280,
   }
 
-  Plotly.newPlot(chartDiv, data, layout, { responsive: true })
+  Plotly.newPlot(chartDiv, data, layout, {
+    responsive: true,
+    displayModeBar: false,
+  })
 }
 
 function renderHourlyPatternChart() {
@@ -355,24 +413,32 @@ function renderHourlyPatternChart() {
     },
   ]
 
+  // UPDATED: Fixed layout for proper container fit
   const layout = {
     paper_bgcolor: CHART_COLORS.background,
     plot_bgcolor: CHART_COLORS.background,
-    font: { color: CHART_COLORS.text },
+    font: { color: CHART_COLORS.text, size: 12 },
     xaxis: {
       title: "Hour of Day",
       color: CHART_COLORS.text,
       gridcolor: "#374151",
+      titlefont: { size: 14 },
     },
     yaxis: {
       title: "Number of Requests",
       color: CHART_COLORS.text,
       gridcolor: "#374151",
+      titlefont: { size: 14 },
     },
     margin: { t: 20, r: 20, b: 60, l: 60 },
+    autosize: true,
+    height: 280,
   }
 
-  Plotly.newPlot(chartDiv, data, layout, { responsive: true })
+  Plotly.newPlot(chartDiv, data, layout, {
+    responsive: true,
+    displayModeBar: false,
+  })
 }
 
 function renderFeatureImportanceChart() {
@@ -390,23 +456,31 @@ function renderFeatureImportanceChart() {
     },
   ]
 
+  // UPDATED: Fixed layout for proper container fit
   const layout = {
     paper_bgcolor: CHART_COLORS.background,
     plot_bgcolor: CHART_COLORS.background,
-    font: { color: CHART_COLORS.text },
+    font: { color: CHART_COLORS.text, size: 11 },
     xaxis: {
       title: "Importance Score",
       color: CHART_COLORS.text,
       gridcolor: "#374151",
+      titlefont: { size: 14 },
     },
     yaxis: {
-      title: "Features",
+      title: "",
       color: CHART_COLORS.text,
+      tickfont: { size: 10 },
     },
-    margin: { t: 20, r: 20, b: 60, l: 180 },
+    margin: { t: 20, r: 20, b: 60, l: 180 }, // UPDATED: More left margin for feature names
+    autosize: true,
+    height: 280,
   }
 
-  Plotly.newPlot(chartDiv, data, layout, { responsive: true })
+  Plotly.newPlot(chartDiv, data, layout, {
+    responsive: true,
+    displayModeBar: false,
+  })
 }
 
 // ===== SHOW CHART PLACEHOLDERS =====
@@ -432,7 +506,7 @@ function showChartPlaceholders() {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          height: 200px;
+          height: 280px;
           color: #9ca3af;
           text-align: center;
           padding: 20px;
@@ -637,4 +711,4 @@ function updateDataStatus(status, lastUpdated) {
 }
 
 console.log("📄 Toronto 311 Dashboard JavaScript loaded")
-console.log("🎯 Mode: Simplified - No filtering, direct chart display")
+console.log("🎯 Mode: Fixed chart sizing for proper container fit")

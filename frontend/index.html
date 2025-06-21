@@ -14,6 +14,7 @@
 <body>
 
     <div class="dashboard-container">
+        <!-- HEADER SECTION -->
         <header class="dashboard-header">
             <div class="header-content">
                 <h1 class="dashboard-title">
@@ -30,6 +31,7 @@
         </header>
 
         <main class="dashboard-main">
+            <!-- KPI CARDS SECTION - Hardcoded values -->
             <section class="kpi-section">
                 <h2 class="section-title">Key Metrics Overview</h2>
                 
@@ -39,19 +41,16 @@
                         <div class="kpi-label">Total Service Requests</div>
                     </div>
                     
-                    
                     <div class="kpi-card" id="completionRate">
                         <div class="kpi-value">--%</div>
                         <div class="kpi-label">Completion Rate</div>
                     </div>
                     
-                   
                     <div class="kpi-card" id="topWard">
                         <div class="kpi-value">--</div>
                         <div class="kpi-label">Most Active Ward</div>
                     </div>
                     
-                   
                     <div class="kpi-card" id="topServiceType">
                         <div class="kpi-value">--</div>
                         <div class="kpi-label">Top Service Type</div>
@@ -59,67 +58,75 @@
                 </div>
             </section>
 
+            <!-- CHARTS SECTION - Dynamic data from backend -->
             <section class="charts-section">
                 <h2 class="section-title">Analytics & Trends</h2>
                 
+                <!-- Two-column grid layout for charts -->
                 <div class="charts-grid">
-                   
+                    <!-- LEFT COLUMN -->
                     <div class="chart-column">
-                      
+                        <!-- Time Series Chart -->
                         <div class="chart-container">
                             <h3 class="chart-title">Daily Service Requests Over Time</h3>
                             <p class="chart-description">Historical daily request counts and trends</p>
+                            <!-- Chart will be rendered inside this div -->
                             <div id="timeSeriesChart" class="chart-plot"></div>
                         </div>
                         
-                       
+                        <!-- Ward Distribution Chart -->
                         <div class="chart-container">
                             <h3 class="chart-title">Requests by Ward</h3>
                             <p class="chart-description">Service request distribution across Toronto wards</p>
+                            <!-- Chart will be rendered inside this div -->
                             <div id="wardChart" class="chart-plot"></div>
                         </div>
                         
-                    
+                        <!-- Status Distribution Pie Chart -->
                         <div class="chart-container">
                             <h3 class="chart-title">Request Status Distribution</h3>
                             <p class="chart-description">Completed vs Cancelled vs Unknown requests</p>
+                            <!-- Chart will be rendered inside this div -->
                             <div id="statusChart" class="chart-plot"></div>
                         </div>
                     </div>
                     
-            
+                    <!-- RIGHT COLUMN -->
                     <div class="chart-column">
-                
+                        <!-- Service Types Chart -->
                         <div class="chart-container">
                             <h3 class="chart-title">Top Service Request Types</h3>
                             <p class="chart-description">Most common types of 311 service requests</p>
+                            <!-- Chart will be rendered inside this div -->
                             <div id="serviceTypesChart" class="chart-plot"></div>
                         </div>
                         
-                
+                        <!-- Division Chart -->
                         <div class="chart-container">
                             <h3 class="chart-title">Requests by Division</h3>
                             <p class="chart-description">Workload distribution across city divisions</p>
+                            <!-- Chart will be rendered inside this div -->
                             <div id="divisionChart" class="chart-plot"></div>
                         </div>
                         
-                       
+                        <!-- Hourly Pattern Chart -->
                         <div class="chart-container">
                             <h3 class="chart-title">Request Patterns by Hour</h3>
                             <p class="chart-description">Peak hours for service requests</p>
+                            <!-- Chart will be rendered inside this div -->
                             <div id="hourlyPatternChart" class="chart-plot"></div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- ML Completion Prediction Section -->
+            <!-- ML PREDICTION SECTION -->
             <section class="ml-prediction-section">
                 <h2 class="section-title">🤖 ML Completion Predictor</h2>
                 <p class="section-description">Use machine learning to predict whether a service request will be completed based on its characteristics</p>
                 
                 <div class="ml-container">
-                    <!-- ML Model Performance Overview -->
+                    <!-- ML Model Performance - Hardcoded values -->
                     <div class="ml-overview">
                         <h3 class="ml-subtitle">Model Performance</h3>
                         <div class="ml-stats-grid">
@@ -144,11 +151,13 @@
 
                     <!-- Interactive Prediction Tool -->
                     <div class="prediction-tool">
+                        <!-- Input Form -->
                         <div class="prediction-input-section">
                             <h3 class="ml-subtitle">Predict Request Completion</h3>
                             <p class="prediction-instructions">Enter service request details to predict completion likelihood</p>
                             
                             <div class="prediction-form">
+                                <!-- First row of inputs -->
                                 <div class="form-row">
                                     <div class="control-group">
                                         <label for="serviceType">Service Request Type:</label>
@@ -161,23 +170,27 @@
                                         <input list="wardList" id="ward" class="control-input" placeholder="Type to search…">
                                         <datalist id="wardList"></datalist>
                                     </div>
+                                </div>
                                 
+                                <!-- Second row of inputs -->
+                                <div class="form-row">
                                     <div class="control-group">
                                         <label for="division">Division:</label>
                                         <input list="divisionList" id="division" class="control-input" placeholder="Type to search…">
                                         <datalist id="divisionList"></datalist>
                                     </div>
                                     
-                                    <div class="form-group">
+                                    <div class="control-group">
                                         <label for="predPostalCode">Postal Code (First 3):</label>
-                                        <input type="text" id="predPostalCode" class="pred-input" placeholder="e.g., M5V" maxlength="3">
+                                        <input type="text" id="predPostalCode" class="control-input" placeholder="e.g., M5V" maxlength="3">
                                     </div>
                                 </div>
                                 
+                                <!-- Third row of inputs -->
                                 <div class="form-row">
-                                    <div class="form-group">
+                                    <div class="control-group">
                                         <label for="predTimeOfDay">Time of Day:</label>
-                                        <select id="predTimeOfDay" class="pred-input">
+                                        <select id="predTimeOfDay" class="control-input">
                                             <option value="">Select Time</option>
                                             <option value="morning">Morning (6AM-12PM)</option>
                                             <option value="afternoon">Afternoon (12PM-6PM)</option>
@@ -186,9 +199,9 @@
                                         </select>
                                     </div>
                                     
-                                    <div class="form-group">
+                                    <div class="control-group">
                                         <label for="predDayOfWeek">Day of Week:</label>
-                                        <select id="predDayOfWeek" class="pred-input">
+                                        <select id="predDayOfWeek" class="control-input">
                                             <option value="">Select Day</option>
                                             <option value="monday">Monday</option>
                                             <option value="tuesday">Tuesday</option>
@@ -201,6 +214,7 @@
                                     </div>
                                 </div>
                                 
+                                <!-- Prediction Button -->
                                 <div class="prediction-button-container">
                                     <button id="predictButton" class="predict-btn">🔮 Predict Completion</button>
                                 </div>
@@ -211,8 +225,8 @@
                         <div class="prediction-results-section">
                             <h3 class="ml-subtitle">Prediction Results</h3>
                             
+                            <!-- Results shown after prediction -->
                             <div id="predictionResults" class="prediction-results hidden">
-                                
                                 <div class="probability-display">
                                     <div class="probability-gauge">
                                         <div class="gauge-container">
@@ -225,7 +239,6 @@
                                     </div>
                                 </div>
                                 
-                                <!-- Prediction details -->
                                 <div class="prediction-details">
                                     <div class="prediction-outcome" id="predictionOutcome">
                                         <span class="outcome-label">Prediction:</span>
@@ -239,30 +252,31 @@
                                     
                                     <div class="key-factors">
                                         <h4>Key Influencing Factors:</h4>
-                                        <ul id="influencingFactors">
-                                            <!-- Populated dynamically -->
-                                        </ul>
+                                        <ul id="influencingFactors"></ul>
                                     </div>
                                 </div>
                             </div>
                             
-                            
+                            <!-- Placeholder shown before prediction -->
                             <div id="predictionPlaceholder" class="prediction-placeholder">
                                 <p>Fill in the request details above and click "Predict Completion" to see the ML model's prediction.</p>
                             </div>
                         </div>
                     </div>
 
-                    
+                    <!-- ML Insights Section -->
                     <div class="ml-insights">
                         <h3 class="ml-subtitle">Model Insights</h3>
                         <div class="insights-grid">
+                            <!-- Feature Importance Chart -->
                             <div class="insight-chart">
                                 <h4>Feature Importance</h4>
                                 <p>Which factors most influence completion predictions</p>
+                                <!-- Chart will be rendered inside this div -->
                                 <div id="featureImportanceChart" class="chart-plot"></div>
                             </div>
                             
+                            <!-- Success Factors - Hardcoded values -->
                             <div class="completion-factors">
                                 <h4>Completion Success Factors</h4>
                                 <div class="factors-list">
@@ -290,7 +304,7 @@
             </section>
         </main>
 
-        
+        <!-- FOOTER SECTION -->
         <footer class="dashboard-footer">
             <div class="footer-content">
                 <div class="footer-section">
@@ -315,13 +329,13 @@
         </footer>
     </div>
 
-   
+    <!-- LOADING OVERLAY -->
     <div id="loadingOverlay" class="loading-overlay hidden">
         <div class="loading-spinner"></div>
         <p class="loading-text">Loading Toronto 311 data...</p>
     </div>
 
-  
+    <!-- ERROR MODAL -->
     <div id="errorModal" class="error-modal hidden">
         <div class="error-content">
             <h3>Prediction Error</h3>
@@ -330,7 +344,7 @@
         </div>
     </div>
 
-   
+    <!-- Load JavaScript -->
     <script src="main.js"></script>
 </body>
 </html>
