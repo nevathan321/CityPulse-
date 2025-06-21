@@ -7,7 +7,7 @@ const HARDCODED_KPI = {
   mlPrecision: "82%",
   mlRecall: "84%",
   mlF1Score: "84%",
-  bestServiceType: "",
+  bestServiceType: "Dealing With FireWorks",
   bestWard: "Etobicoke Centre(02) (85.3%)",
   bestDivision: "Transportation Services(01) (86.2%)",
 }
