@@ -16,7 +16,6 @@ dashboard_data = None
 model_data = None
 
 def load_data():
-    """Load dashboard data and ML model"""
     global dashboard_data, model_data
     
     try:
@@ -46,8 +45,6 @@ def load_data():
 
 @app.route('/api/dashboard-data', methods=['GET'])
 def get_dashboard_data():
-    """Get dynamic chart data for dashboard"""
-    
     if dashboard_data is None:
         return jsonify({
             "status": "error",
@@ -62,8 +59,6 @@ def get_dashboard_data():
 
 @app.route('/api/predict-completion', methods=['POST'])
 def predict_completion():
-    """Predict service request completion likelihood"""
-    
     if model_data is None:
         return jsonify({
             "status": "error",
@@ -107,9 +102,6 @@ def predict_completion():
         }), 500
 
 def make_prediction(input_data):
-    """Make ML prediction based on input data"""
-    
-  
     model = model_data['model']
     feature_columns = model_data['feature_columns']
     categorical_values = model_data['categorical_values']
@@ -181,7 +173,6 @@ def make_prediction(input_data):
     }
 
 def generate_factors(input_data, probability):
-    """Generate factors that influence the prediction"""
     factors = []
     
     if input_data.get('service_type'):
@@ -210,7 +201,7 @@ def generate_factors(input_data, probability):
 
 @app.route('/api/categorical-values', methods=['GET'])
 def get_categorical_values():
-    """Get available categorical values for dropdowns"""
+
     
     if dashboard_data is None:
         return jsonify({
@@ -227,7 +218,7 @@ def get_categorical_values():
 
 @app.route('/api/health', methods=['GET'])
 def health_check():
-    """Health check endpoint"""
+    
     return jsonify({
         "status": "healthy",
         "timestamp": datetime.now().isoformat(),
@@ -238,7 +229,7 @@ def health_check():
 
 @app.route('/', methods=['GET'])
 def root():
-    """Root endpoint with API information"""
+    
     return jsonify({
         "message": "Toronto 311 Dashboard API - Dynamic Charts & ML Predictions",
         "version": "1.0.0",
